@@ -11,7 +11,6 @@ cmd=run.pl
 
 data=/home/ec2-user/models/data/test_clean_hires
 dir=/home/ec2-user/models/exp/nnet3_cleaned/aligns
-
 # Before running this recipe, you have to run the librispeech recipe firstly.
 # This script assumes the following paths exist.
 librispeech_eg=/home/ec2-user/models
@@ -41,7 +40,7 @@ done
 
 
 if [ $stage -le 2 ]; then
-  # Compute Log-likelihoods
+   # Compute Log-likelihoods
   /home/ec2-user/kaldi/kaldi/egs/librispeech/s5/steps/nnet3/compute_output.sh --cmd "$cmd" --nj $nj \
     --online-ivector-dir $ivector $data $model /home/ec2-user/models/exp/probs_test_clean_hires
 fi
@@ -64,9 +63,7 @@ if [ $stage -le 4 ]; then
     /home/ec2-user/kaldi/kaldi/src/bin/ali-to-phones --per-frame=true $model/final.mdl "ark,t:gunzip -c $dir/ali.JOB.gz|" \
       "ark,t:-" \| /home/ec2-user/kaldi/kaldi/egs/librispeech/s5/utils/apply_map.pl -f 2- $dir/phone-to-pure-phone.int \| \
       gzip -c \>$dir/ali-pure-phone.JOB.gz   || exit 1;
-
 fi
-
 if [ $stage -le 5 ]; then
   # The outputs of the binary compute-gop are the GOPs and the phone-level features.
   #
@@ -100,4 +97,4 @@ if [ $stage -le 5 ]; then
   #echo "The phones whose gop values less than -5 could be treated as mispronunciations
 fi
 
-  rm -r /home/ec2-user/models/data/eval2000 /home/ec2-user/models/data/test_clean_hires /home/ec2-user/models/exp/nnet3_cleaned/ivectors_test_clean_hires  /home/ec2-user/models/exp/probs_test_clean_hires  /home/ec2-user/models/exp/nnet3_cleaned/aligns /home/ec2-user/test/user_1.wav
+  rm -r /home/ec2-user/models/data/eval2000 /home/ec2-user/models/data/test_clean_hires /home/ec2-user/models/exp/nnet3_cleaned/ivectors_test_clean_hires  /home/ec2-user/models/exp/probs_test_clean_hires  /home/ec2-user/models/exp/nnet3_cleaned/aligns $1
