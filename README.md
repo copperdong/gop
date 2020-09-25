@@ -12,12 +12,11 @@ Compute Goodness of Pronunciation using Kaldi
 </li>
   </li>
   <li> install requirements for fastapi using
-**pip install -r requirements.txt** 
+`pip install -r requirements.txt`
 </li>
 </li>
   <li>run the app using uvicorn 
-**main:app --host='0.0.0.0' --port=8080 --reload --workers n**
-open localhost:8080/docs to check the docs
+  `gunicorn -w 2 --reload --bind 0.0.0.0:8080 --capture-output --error-logfile error_log.txt --access-logfile log.txt -k uvicorn.workers.UvicornWorker main:app`
 </li>
  <li>open localhost:8080/docs to check the docs
 </li>
